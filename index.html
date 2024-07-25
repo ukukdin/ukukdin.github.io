@@ -1,13 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사이드바 예제</title>
+    <link rel="stylesheet" href="image/style.css">
+</head>
+<body>
+<div class="container">
+    <aside class="sidebar">
+        <h2>깃블로그</h2>
+        <ul>
+            <li class="menu-item">
+                <a href="#">메뉴 항목 1</a>
+                <ul class="sub-menu">
+                    <li><a href="#">서브 메뉴 1-1</a></li>
+                    <li><a href="#">서브 메뉴 1-2</a></li>
+                    <li><a href="#">서브 메뉴 1-3</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#">메뉴 항목 2</a>
+                <ul class="sub-menu">
+                    <li><a href="#">서브 메뉴 2-1</a></li>
+                    <li><a href="#">서브 메뉴 2-2</a></li>
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#">메뉴 항목 3</a>
+                <ul class="sub-menu">
+                    <li><a href="#">서브 메뉴 3-1</a></li>
+                    <li><a href="#">서브 메뉴 2-2</a></li>
+                </ul>
+            </li>
+            <!-- 필요한 메뉴 항목 추가 -->
+        </ul>
+    </aside>
+    <div class="content">
+        <h1>티스토리 블로그에서 깃블로그로 옮겨담는 과정에 있습니다.</h1>
+        <ol>
+            <a href="https://whatthaburger.tistory.com/">
+                <img src="tistory/unnamed.png" alt="현 티스토리" width="80" height="100"/> <b>현 티스토리 주소입니다.</b>
+            </a>
+        </ol>
+        <p>들어와주신 여러분 모두 감사드립니다.</p>
+        <p>티스토리에서 깃블로그로 옮기는 이유는 조금 더 좋은 글들만 보여드리고 싶고, Java에서 TypeScript로 변경하고 싶은 제 의지를 투영하고 싶어서입니다.</p>
+    </div>
+</div>
+<script>
+    // JavaScript로 메뉴 항목 클릭 이벤트 처리
+    const menuItems = document.querySelectorAll('.menu-item');
 
-<h1>티스토리 블로그에서 깃블로그로 옮겨담는과정에 있습니다.</h1>
-<ol>
-    <a href="https://whatthaburger.tistory.com/">
-        <img src="" alt="현 티스토리"/>
-    </a>
-</ol>
-<br>들어와주신 여러분 모두 감사드립니다.</br>
-<p>
-    티스토리에서 깃블로그로 옮기는 이유는 조금 더 좋은 글들만 보여드리고 싶고, Java에서 -> TypeScript 변경하고싶은 제 의지를 투영하고싶어서입니다.
+    menuItems.forEach(item => {
+        item.addEventListener('click', function() {
+            // 클릭된 메뉴 아이템에서 서브 메뉴를 찾아서 토글합니다.
+            const subMenu = item.querySelector('.sub-menu');
+            if (subMenu) {
+                subMenu.classList.toggle('show');
+            }
 
-</p>
-
+            // 다른 모든 서브 메뉴는 닫기
+            menuItems.forEach(otherItem => {
+                if (otherItem !== item) {
+                    const otherSubMenu = otherItem.querySelector('.sub-menu');
+                    if (otherSubMenu) {
+                        otherSubMenu.classList.remove('show');
+                    }
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
