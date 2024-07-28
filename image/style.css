@@ -35,3 +35,16 @@ body {
 .sidebar ul .sub-menu.show {
     display: block; /* 클릭 시 서브 메뉴 표시 */
 }
+ <style>
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, 'Courier New', monospace;
+            color: #333;
+        }
+    </style>
