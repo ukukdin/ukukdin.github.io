@@ -22,6 +22,23 @@ AOP 란(Aspect Oriented Programming)
     @AfterThrowing - 메소드 호출 실패 예외 발생(Throws)
     @Around - Before/After 모두 제어
 
+    -포인트컷 지시자(PointCut Designators)
+
+    PCD         || 의미
+
+    execution       반환타입, 타입 , 메소드 , 파라미터 기준으로 지정
+        "execution" ([접근제한자-생략가능][리턴타입][패키지지정][클래스지정][메서드지정][매개변수지정])"
+    각각의 패턴은 * 으로 표현이 가능하며, .. 0개 이상을 의미한다.
+    접근제한자       접근 제한자를 지정(생략 가능)   example
+        public  :   public 제한자 선택       execution(public
+        private :   private 제한자 선택      execution(private
+        생략     :    생략                  execution(*set*
+
+    [리턴 타입]
+    리턴타입            리턴타입        example
+    *               모든 리턴타입
+
+
 </head>
 <body>
 
