@@ -1,0 +1,27 @@
+---
+layout: default
+---
+<article class="post-detail">
+  <header class="post-detail__header">
+    <span class="post-detail__category category-tag category-tag--{{ page.category | slugify }}">{{ page.category }}</span>
+    <h1 class="post-detail__title">{{ page.title }}</h1>
+    <time class="post-detail__date" datetime="{{ page.date | date_to_xmlschema }}">
+      {{ page.date | date: "%Y년 %m월 %d일" }}
+    </time>
+    {% if page.tags %}
+    <div class="post-detail__tags">
+      {% for tag in page.tags %}
+      <span class="tag">{{ tag }}</span>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </header>
+
+  <div class="post-detail__content">
+    {{ content }}
+  </div>
+
+  <footer class="post-detail__footer">
+    <a href="{{ '/' | relative_url }}" class="back-link">&larr; 목록으로 돌아가기</a>
+  </footer>
+</article>

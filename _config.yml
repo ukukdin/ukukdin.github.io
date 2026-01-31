@@ -1,0 +1,25 @@
+title: Ukukdin's Tech Blog
+description: "LangChain, CS Study, Spring Boot, Infra 기술 블로그"
+url: "https://ukukdin.github.io"
+baseurl: ""
+
+markdown: kramdown
+highlighter: rouge
+
+permalink: /:categories/:title/
+
+collections_dir: .
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: post
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - .idea
+  - node_modules
