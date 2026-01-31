@@ -39,6 +39,16 @@ body {
   line-height: 1.7;
 }
 
+.site-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.site-main {
+  flex: 1;
+}
+
 a {
   color: var(--color-primary);
   text-decoration: none;
