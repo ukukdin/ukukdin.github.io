@@ -30,25 +30,89 @@ title: Home
   {% endfor %}
 </div>
 
+<nav class="pagination" aria-label="페이지 네비게이션"></nav>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  var buttons = document.querySelectorAll('.category-filter__btn');
-  var cards = document.querySelectorAll('.card');
+  var PER_PAGE = 6;
+  var currentPage = 1;
+  var currentCategory = 'all';
 
+  var buttons = document.querySelectorAll('.category-filter__btn');
+  var allCards = Array.prototype.slice.call(document.querySelectorAll('.card'));
+  var pagination = document.querySelector('.pagination');
+
+  function getFiltered() {
+    return allCards.filter(function (card) {
+      return currentCategory === 'all' || card.getAttribute('data-category') === currentCategory;
+    });
+  }
+
+  function render() {
+    var filtered = getFiltered();
+    var totalPages = Math.ceil(filtered.length / PER_PAGE);
+    if (currentPage > totalPages) currentPage = totalPages || 1;
+
+    var start = (currentPage - 1) * PER_PAGE;
+    var end = start + PER_PAGE;
+
+    allCards.forEach(function (card) { card.style.display = 'none'; });
+    filtered.forEach(function (card, i) {
+      card.style.display = (i >= start && i < end) ? '' : 'none';
+    });
+
+    renderPagination(totalPages);
+  }
+
+  function renderPagination(totalPages) {
+    pagination.innerHTML = '';
+    if (totalPages <= 1) return;
+
+    // Prev button
+    if (currentPage > 1) {
+      var prev = document.createElement('button');
+      prev.className = 'pagination__btn';
+      prev.textContent = '\u2190';
+      prev.addEventListener('click', function () { currentPage--; render(); scrollToGrid(); });
+      pagination.appendChild(prev);
+    }
+
+    // Page numbers
+    for (var i = 1; i <= totalPages; i++) {
+      var btn = document.createElement('button');
+      btn.className = 'pagination__btn' + (i === currentPage ? ' pagination__btn--active' : '');
+      btn.textContent = i;
+      btn.addEventListener('click', (function (page) {
+        return function () { currentPage = page; render(); scrollToGrid(); };
+      })(i));
+      pagination.appendChild(btn);
+    }
+
+    // Next button
+    if (currentPage < totalPages) {
+      var next = document.createElement('button');
+      next.className = 'pagination__btn';
+      next.textContent = '\u2192';
+      next.addEventListener('click', function () { currentPage++; render(); scrollToGrid(); });
+      pagination.appendChild(next);
+    }
+  }
+
+  function scrollToGrid() {
+    document.querySelector('.card-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Category filter
   buttons.forEach(function (btn) {
     btn.addEventListener('click', function () {
       buttons.forEach(function (b) { b.classList.remove('active'); });
       btn.classList.add('active');
-
-      var category = btn.getAttribute('data-category');
-      cards.forEach(function (card) {
-        if (category === 'all' || card.getAttribute('data-category') === category) {
-          card.style.display = '';
-        } else {
-          card.style.display = 'none';
-        }
-      });
+      currentCategory = btn.getAttribute('data-category');
+      currentPage = 1;
+      render();
     });
   });
+
+  render();
 });
 </script>
