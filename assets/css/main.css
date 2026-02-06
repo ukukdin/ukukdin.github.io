@@ -500,17 +500,6 @@ a:hover {
   font-weight: 600;
 }
 
-.toc-sidebar__number {
-  color: var(--color-text-secondary);
-  margin-right: 0.35rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-}
-
-.toc-sidebar__item--active > .toc-sidebar__link .toc-sidebar__number {
-  color: var(--color-primary);
-}
-
 /* Hide TOC on small screens */
 @media (max-width: 768px) {
   .post-wrapper {
