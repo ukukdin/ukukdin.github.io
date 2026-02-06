@@ -243,11 +243,21 @@ a:hover {
   font-size: 0.8rem;
 }
 
+/* ===== Post Wrapper (2-column layout) ===== */
+.post-wrapper {
+  display: flex;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
 /* ===== Post Detail ===== */
 .post-detail {
+  flex: 1;
+  min-width: 0;
   max-width: 750px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
+  padding: 2rem 0 4rem;
 }
 
 .post-detail__header {
@@ -426,4 +436,89 @@ a:hover {
   text-align: center;
   color: var(--color-text-secondary);
   font-size: 0.85rem;
+}
+
+/* ===== TOC Sidebar ===== */
+.toc-sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 80px;
+  align-self: flex-start;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  padding: 1rem 0;
+}
+
+.toc-sidebar__title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.75rem;
+  padding-left: 0.75rem;
+}
+
+.toc-sidebar__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toc-sidebar__item {
+  margin-bottom: 0.15rem;
+}
+
+.toc-sidebar__item--sub {
+  padding-left: 1rem;
+}
+
+.toc-sidebar__link {
+  display: block;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+}
+
+.toc-sidebar__link:hover {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.toc-sidebar__item--active > .toc-sidebar__link {
+  color: var(--color-primary);
+  border-left-color: var(--color-primary);
+  font-weight: 600;
+}
+
+.toc-sidebar__number {
+  color: var(--color-text-secondary);
+  margin-right: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.toc-sidebar__item--active > .toc-sidebar__link .toc-sidebar__number {
+  color: var(--color-primary);
+}
+
+/* Hide TOC on small screens */
+@media (max-width: 768px) {
+  .post-wrapper {
+    display: block;
+  }
+
+  .post-detail {
+    max-width: 100%;
+    padding: 2rem 0 4rem;
+  }
+
+  .toc-sidebar {
+    display: none;
+  }
 }

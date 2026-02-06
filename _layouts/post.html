@@ -1,27 +1,118 @@
 ---
 layout: default
 ---
-<article class="post-detail">
-  <header class="post-detail__header">
-    <span class="post-detail__category category-tag category-tag--{{ page.category | slugify }}">{{ page.category }}</span>
-    <h1 class="post-detail__title">{{ page.title }}</h1>
-    <time class="post-detail__date" datetime="{{ page.date | date_to_xmlschema }}">
-      {{ page.date | date: "%Y년 %m월 %d일" }}
-    </time>
-    {% if page.tags %}
-    <div class="post-detail__tags">
-      {% for tag in page.tags %}
-      <span class="tag">{{ tag }}</span>
-      {% endfor %}
+<div class="post-wrapper">
+  <article class="post-detail">
+    <header class="post-detail__header">
+      <span class="post-detail__category category-tag category-tag--{{ page.category | slugify }}">{{ page.category }}</span>
+      <h1 class="post-detail__title">{{ page.title }}</h1>
+      <time class="post-detail__date" datetime="{{ page.date | date_to_xmlschema }}">
+        {{ page.date | date: "%Y년 %m월 %d일" }}
+      </time>
+      {% if page.tags %}
+      <div class="post-detail__tags">
+        {% for tag in page.tags %}
+        <span class="tag">{{ tag }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </header>
+
+    <div class="post-detail__content">
+      {{ content }}
     </div>
-    {% endif %}
-  </header>
 
-  <div class="post-detail__content">
-    {{ content }}
-  </div>
+    <footer class="post-detail__footer">
+      <a href="{{ '/' | relative_url }}" class="back-link">&larr; 목록으로 돌아가기</a>
+    </footer>
+  </article>
 
-  <footer class="post-detail__footer">
-    <a href="{{ '/' | relative_url }}" class="back-link">&larr; 목록으로 돌아가기</a>
-  </footer>
-</article>
+  <nav class="toc-sidebar" id="toc-sidebar">
+    <div class="toc-sidebar__title">목차</div>
+    <ol class="toc-sidebar__list" id="toc-list"></ol>
+  </nav>
+</div>
+
+<script>
+(function () {
+  var content = document.querySelector('.post-detail__content');
+  var tocList = document.getElementById('toc-list');
+  if (!content || !tocList) return;
+
+  var headings = content.querySelectorAll('h2, h3');
+  if (headings.length === 0) {
+    document.getElementById('toc-sidebar').style.display = 'none';
+    return;
+  }
+
+  var h2Count = 0;
+  var h3Count = 0;
+  var items = [];
+
+  headings.forEach(function (heading) {
+    var id = heading.id || heading.textContent.trim().toLowerCase()
+      .replace(/[^a-z0-9가-힣ㄱ-ㅎㅏ-ㅣ\s-]/g, '')
+      .replace(/\s+/g, '-');
+    heading.id = id;
+
+    var isH2 = heading.tagName === 'H2';
+    var number;
+
+    if (isH2) {
+      h2Count++;
+      h3Count = 0;
+      number = h2Count + '.';
+    } else {
+      h3Count++;
+      number = h2Count + '.' + h3Count;
+    }
+
+    var li = document.createElement('li');
+    li.className = 'toc-sidebar__item' + (isH2 ? '' : ' toc-sidebar__item--sub');
+    var a = document.createElement('a');
+    a.href = '#' + id;
+    a.className = 'toc-sidebar__link';
+    a.innerHTML = '<span class="toc-sidebar__number">' + number + '</span>' + heading.textContent;
+    li.appendChild(a);
+    tocList.appendChild(li);
+
+    items.push({ el: heading, li: li });
+  });
+
+  // Smooth scroll on click
+  tocList.addEventListener('click', function (e) {
+    var link = e.target.closest('.toc-sidebar__link');
+    if (!link) return;
+    e.preventDefault();
+    var target = document.querySelector(link.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.pushState(null, '', link.getAttribute('href'));
+    }
+  });
+
+  // IntersectionObserver for active highlight
+  var currentActive = null;
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        if (currentActive) currentActive.classList.remove('toc-sidebar__item--active');
+        for (var i = 0; i < items.length; i++) {
+          if (items[i].el === entry.target) {
+            items[i].li.classList.add('toc-sidebar__item--active');
+            currentActive = items[i].li;
+            break;
+          }
+        }
+      }
+    });
+  }, {
+    rootMargin: '0px 0px -70% 0px',
+    threshold: 0
+  });
+
+  items.forEach(function (item) {
+    observer.observe(item.el);
+  });
+})();
+</script>
