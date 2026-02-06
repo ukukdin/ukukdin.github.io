@@ -45,8 +45,6 @@ layout: default
     return;
   }
 
-  var h2Count = 0;
-  var h3Count = 0;
   var items = [];
 
   headings.forEach(function (heading) {
@@ -56,23 +54,13 @@ layout: default
     heading.id = id;
 
     var isH2 = heading.tagName === 'H2';
-    var number;
-
-    if (isH2) {
-      h2Count++;
-      h3Count = 0;
-      number = h2Count + '.';
-    } else {
-      h3Count++;
-      number = h2Count + '.' + h3Count;
-    }
 
     var li = document.createElement('li');
     li.className = 'toc-sidebar__item' + (isH2 ? '' : ' toc-sidebar__item--sub');
     var a = document.createElement('a');
     a.href = '#' + id;
     a.className = 'toc-sidebar__link';
-    a.innerHTML = '<span class="toc-sidebar__number">' + number + '</span>' + heading.textContent;
+    a.textContent = heading.textContent;
     li.appendChild(a);
     tocList.appendChild(li);
 
@@ -84,10 +72,11 @@ layout: default
     var link = e.target.closest('.toc-sidebar__link');
     if (!link) return;
     e.preventDefault();
-    var target = document.querySelector(link.getAttribute('href'));
+    var id = link.getAttribute('href').slice(1);
+    var target = document.getElementById(id);
     if (target) {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      history.pushState(null, '', link.getAttribute('href'));
+      history.pushState(null, '', '#' + id);
     }
   });
 
