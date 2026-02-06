@@ -250,11 +250,12 @@ a:hover {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
+  align-items: flex-start;
 }
 
 /* ===== Post Detail ===== */
 .post-detail {
-  flex: 1;
+  flex: 1 1 0%;
   min-width: 0;
   max-width: 750px;
   padding: 2rem 0 4rem;
@@ -332,6 +333,8 @@ a:hover {
   border-collapse: collapse;
   margin-bottom: 1.5rem;
   font-size: 0.95rem;
+  display: block;
+  overflow-x: auto;
 }
 
 .post-detail__content th,
@@ -363,6 +366,7 @@ a:hover {
   overflow-x: auto;
   margin-bottom: 1.5rem;
   line-height: 1.5;
+  max-width: 100%;
 }
 
 .post-detail__content pre code {
