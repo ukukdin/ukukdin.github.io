@@ -297,7 +297,7 @@ a:hover {
 /* ===== Post Content ===== */
 .post-detail__content {
   font-size: 1.05rem;
-  line-height: 1.85;
+  line-height: 1.5;
 }
 
 .post-detail__content img {
