@@ -19,6 +19,86 @@
   --max-width: 1100px;
 }
 
+/* ===== Ad Banner (Left Sidebar) ===== */
+.ad-banner {
+  position: fixed;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 90;
+  width: 120px;
+}
+
+.ad-banner__link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.25rem 1rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  text-decoration: none;
+  color: var(--color-text);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ad-banner__link:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+  text-decoration: none;
+}
+
+.ad-banner__badge {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  background: var(--color-bg);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+
+.ad-banner__icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.ad-banner__title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.ad-banner__desc {
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+  line-height: 1.4;
+}
+
+.ad-banner__cta {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background: #eff6ff;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.ad-banner__link:hover .ad-banner__cta {
+  background: #dbeafe;
+}
+
+/* 화면이 좁으면 배너 숨김 (콘텐츠와 겹치지 않도록) */
+@media (max-width: 1400px) {
+  .ad-banner {
+    display: none;
+  }
+}
+
 /* ===== Reset ===== */
 *, *::before, *::after {
   box-sizing: border-box;
