@@ -607,3 +607,15 @@ a:hover {
   }
 }
 
+@media (min-width: 769px) {
+  .site-header__inner,
+  .hero,
+  .category-filter,
+  .card-grid,
+  .pagination,
+  .post-wrapper,
+  .site-footer__inner {
+    margin-left: 450px;
+  }
+}
+
