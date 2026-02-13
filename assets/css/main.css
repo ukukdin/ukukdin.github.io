@@ -26,7 +26,7 @@
   top: 50%;
   transform: translateY(-50%);
   z-index: 90;
-  width: auto;
+  width: 320px;
 }
 
 .ad-banner__link {
@@ -62,7 +62,7 @@
 
 .ad-banner__logo {
   display: block;
-  width: 160px;
+  width: 280px;
   height: auto;
   border-radius: 8px;
 }
