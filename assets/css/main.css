@@ -607,15 +607,3 @@ a:hover {
   }
 }
 
-/* ===== 배너 공간 확보: 콘텐츠를 오른쪽으로 이동 ===== */
-@media (min-width: 769px) {
-  .site-header__inner,
-  .hero,
-  .category-filter,
-  .card-grid,
-  .pagination,
-  .post-wrapper,
-  .site-footer__inner {
-    margin-left: 260px;
-  }
-}
