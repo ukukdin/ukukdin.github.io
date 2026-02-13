@@ -9,8 +9,8 @@
 <body class="site-body">
   {% include header.html %}
 
-  <!-- 왼쪽 광고 배너 (마우스 Y축 추적) -->
-  <aside class="ad-banner" id="ad-banner" aria-label="광고">
+  <!-- 왼쪽 광고 배너 (고정) -->
+  <aside class="ad-banner" aria-label="광고">
     <a href="https://www.loopers.im/" target="_blank" rel="noopener noreferrer" class="ad-banner__link">
       <div class="ad-banner__badge">AD</div>
       <img class="ad-banner__logo" src="{{ '/img_1.png' | relative_url }}" alt="Loopers" />
@@ -18,45 +18,6 @@
       <span class="ad-banner__cta">방문하기 &rarr;</span>
     </a>
   </aside>
-
-  <script>
-  (function() {
-    var banner = document.getElementById('ad-banner');
-    if (!banner) return;
-    var bannerH = 0;
-    var targetY = window.innerHeight / 2;
-    var currentY = targetY;
-    var rafId = null;
-
-    function updateBannerHeight() {
-      bannerH = banner.offsetHeight;
-    }
-
-    function animate() {
-      currentY += (targetY - currentY) * 0.1;
-      var y = Math.max(10, Math.min(currentY - bannerH / 2, window.innerHeight - bannerH - 10));
-      banner.style.top = y + 'px';
-      if (Math.abs(targetY - currentY) > 0.5) {
-        rafId = requestAnimationFrame(animate);
-      } else {
-        rafId = null;
-      }
-    }
-
-    document.addEventListener('mousemove', function(e) {
-      targetY = e.clientY;
-      if (!rafId) {
-        rafId = requestAnimationFrame(animate);
-      }
-    });
-
-    window.addEventListener('resize', updateBannerHeight);
-    window.addEventListener('load', function() {
-      updateBannerHeight();
-      banner.style.top = (window.innerHeight / 2 - bannerH / 2) + 'px';
-    });
-  })();
-  </script>
 
   <main class="site-main">
     {{ content }}

@@ -24,9 +24,9 @@
   position: fixed;
   left: 16px;
   top: 50%;
+  transform: translateY(-50%);
   z-index: 90;
-  width: 220px;
-  pointer-events: auto;
+  width: 250px;
 }
 
 .ad-banner__link {
