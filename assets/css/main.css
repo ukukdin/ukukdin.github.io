@@ -22,7 +22,7 @@
 /* ===== Ad Banner (마우스 추적 플로팅, 2x 사이즈) ===== */
 .ad-banner {
   position: fixed;
-  left: 16px;
+  left: 72px;
   top: 50%;
   transform: translateY(-50%);
   z-index: 90;
