@@ -287,7 +287,14 @@ a:hover {
   background: #d1fae5;
   color: #065f46;
 }
-
+.category-tag--os{
+  background: #d1fae5;
+  color: #065f07;
+}
+.category-tag--etc {
+  background: #d1fae5;
+  color: #f06548;
+}
 .category-tag--cs-study {
   background: #e0e7ff;
   color: #3730a3;
