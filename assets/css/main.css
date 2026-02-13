@@ -19,81 +19,78 @@
   --max-width: 1100px;
 }
 
-/* ===== Ad Banner (Left Sidebar) ===== */
+/* ===== Ad Banner (마우스 추적 플로팅, 2x 사이즈) ===== */
 .ad-banner {
   position: fixed;
-  left: 20px;
+  left: 16px;
   top: 50%;
-  transform: translateY(-50%);
   z-index: 90;
-  width: 120px;
+  width: 220px;
+  pointer-events: auto;
 }
 
 .ad-banner__link {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  padding: 1.25rem 1rem;
+  gap: 0.6rem;
+  padding: 1.5rem 1.25rem;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   box-shadow: var(--shadow-card);
   text-decoration: none;
   color: var(--color-text);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: box-shadow 0.2s, border-color 0.2s;
 }
 
 .ad-banner__link:hover {
-  transform: translateY(-2px);
   box-shadow: var(--shadow-card-hover);
+  border-color: var(--color-primary);
   text-decoration: none;
 }
 
 .ad-banner__badge {
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   font-weight: 700;
   color: var(--color-text-secondary);
   background: var(--color-bg);
-  padding: 0.1rem 0.4rem;
+  padding: 0.15rem 0.5rem;
   border-radius: 4px;
   letter-spacing: 0.05em;
 }
 
-.ad-banner__icon {
-  font-size: 2rem;
-  line-height: 1;
-}
-
-.ad-banner__title {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--color-primary);
+.ad-banner__logo {
+  display: block;
+  width: 160px;
+  height: auto;
+  border-radius: 8px;
 }
 
 .ad-banner__desc {
-  font-size: 0.7rem;
-  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
   text-align: center;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .ad-banner__cta {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  color: var(--color-primary);
-  background: #eff6ff;
-  padding: 0.25rem 0.6rem;
-  border-radius: 6px;
+  color: #fff;
+  background: var(--color-primary);
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
   transition: background 0.2s;
 }
 
 .ad-banner__link:hover .ad-banner__cta {
-  background: #dbeafe;
+  background: #2563eb;
 }
 
-/* 화면이 좁으면 배너 숨김 (콘텐츠와 겹치지 않도록) */
-@media (max-width: 1400px) {
+/* 모바일에서는 배너 숨김 */
+@media (max-width: 768px) {
   .ad-banner {
     display: none;
   }
@@ -607,5 +604,18 @@ a:hover {
 
   .toc-sidebar {
     display: none;
+  }
+}
+
+/* ===== 배너 공간 확보: 콘텐츠를 오른쪽으로 이동 ===== */
+@media (min-width: 769px) {
+  .site-header__inner,
+  .hero,
+  .category-filter,
+  .card-grid,
+  .pagination,
+  .post-wrapper,
+  .site-footer__inner {
+    margin-left: 260px;
   }
 }
