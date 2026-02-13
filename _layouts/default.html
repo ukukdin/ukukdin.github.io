@@ -9,6 +9,17 @@
 <body class="site-body">
   {% include header.html %}
 
+  <!-- 왼쪽 광고 배너 -->
+  <aside class="ad-banner" aria-label="광고">
+    <a href="https://www.loopers.im/" target="_blank" rel="noopener noreferrer" class="ad-banner__link">
+      <div class="ad-banner__badge">AD</div>
+      <div class="ad-banner__icon">🔄</div>
+      <div class="ad-banner__title">Loopers</div>
+      <div class="ad-banner__desc">개발자를 위한<br>새로운 경험</div>
+      <span class="ad-banner__cta">방문하기 →</span>
+    </a>
+  </aside>
+
   <main class="site-main">
     {{ content }}
   </main>
