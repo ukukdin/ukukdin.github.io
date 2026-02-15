@@ -164,6 +164,11 @@ a:hover {
   text-decoration: none;
 }
 
+.site-header__nav {
+  display: flex;
+  gap: 1rem;
+}
+
 .site-header__nav a {
   color: var(--color-text-secondary);
   font-size: 0.9rem;
