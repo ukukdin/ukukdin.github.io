@@ -6,4 +6,4 @@ category: etc
 tags: [coupon, concurrency, DB lock]
 excerpt: "쿠폰을 적용하며 트랜잭션과 동시성 테스트의 정합성"
 ---
-
+# 어떤 코드가 대용량 트래픽을 견딜까?
