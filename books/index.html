@@ -1,0 +1,23 @@
+---
+layout: default
+title: Books( 북스터디 )
+---
+
+<section class="hero">
+  <h1 class="hero__title">Books</h1>
+  <p class="hero__desc">책을 통해서 스터디한것들의 대한 기록</p>
+</section>
+
+<div class="card-grid">
+  {% assign wil_posts = site.posts | where: "category", "BOOKS" | sort: 'date' | reverse %}
+  {% for post in wil_posts %}
+  <div class="card">
+    <a href="{{ post.url | relative_url }}" class="card__link">
+      <span class="category-tag category-tag--wil">BOOK</span>
+      <h2 class="card__title">{{ post.title }}</h2>
+      <p class="card__excerpt">{{ post.excerpt | strip_html | truncate: 100 }}</p>
+      <time class="card__date">{{ post.date | date: "%Y.%m.%d" }}</time>
+    </a>
+  </div>
+  {% endfor %}
+</div>
