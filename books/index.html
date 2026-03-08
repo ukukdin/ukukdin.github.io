@@ -9,11 +9,11 @@ title: Books( 북스터디 )
 </section>
 
 <div class="card-grid">
-  {% assign wil_posts = site.posts | where: "category", "BOOKS" | sort: 'date' | reverse %}
-  {% for post in wil_posts %}
+  {% assign books_posts = site.posts | where: "category", "BOOKS" | sort: 'date' | reverse %}
+  {% for post in books_posts %}
   <div class="card">
     <a href="{{ post.url | relative_url }}" class="card__link">
-      <span class="category-tag category-tag--wil">BOOK</span>
+      <span class="category-tag category-tag--book">BOOK</span>
       <h2 class="card__title">{{ post.title }}</h2>
       <p class="card__excerpt">{{ post.excerpt | strip_html | truncate: 100 }}</p>
       <time class="card__date">{{ post.date | date: "%Y.%m.%d" }}</time>
