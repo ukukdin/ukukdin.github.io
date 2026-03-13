@@ -2,7 +2,7 @@
 layout: post
 title: "AI 시대, 개발자에게 남은 것"
 date: 2026-02-13
-category: etc
+category: Loopers
 tags: [기획,문서]
 excerpt: "개발자의 시야에서 바라보는 기획 단계"
 ---
