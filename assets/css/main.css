@@ -465,9 +465,11 @@ a:hover {
   border-radius: 4px;
 }
 
-.post-detail__content pre {
-  background: #f5f5f5;
-  color: #1a1a2e;
+.post-detail__content pre,
+.post-detail__content .highlight pre,
+.post-detail__content .highlight pre.highlight {
+  background: #f5f5f5 !important;
+  color: #1a1a2e !important;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   padding: 1.25rem;
@@ -477,8 +479,15 @@ a:hover {
   max-width: 100%;
 }
 
-.post-detail__content pre code {
-  background: none;
+.post-detail__content .highlight {
+  background: #f5f5f5 !important;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.post-detail__content pre code,
+.post-detail__content .highlight pre code {
+  background: none !important;
   padding: 0;
   color: inherit;
   font-size: 0.88rem;
