@@ -502,26 +502,48 @@ a:hover {
 .post-detail__content .highlight pre code {
   background: none !important;
   padding: 0;
-  color: inherit;
+  color: #1a1a2e;
   font-size: 0.88rem;
 }
 
-/* ===== Rouge Syntax Highlighting (Light Theme) ===== */
-.highlight .k, .highlight .kd, .highlight .kn,
-.highlight .kp, .highlight .kr, .highlight .kt { color: #0033b3; font-weight: bold; } /* keywords: public, void, return, new, if */
-.highlight .n, .highlight .nb, .highlight .nc,
-.highlight .no, .highlight .nd, .highlight .ni,
-.highlight .ne, .highlight .nf, .highlight .nl { color: #1a1a2e; } /* names, functions */
-.highlight .na { color: #9876aa; } /* annotations: @Retry, @CircuitBreaker */
-.highlight .s, .highlight .s1, .highlight .s2,
-.highlight .se, .highlight .sh, .highlight .sx { color: #067d17; } /* strings */
-.highlight .c, .highlight .c1, .highlight .cm,
-.highlight .cp, .highlight .cs { color: #8c8c8c; font-style: italic; } /* comments */
-.highlight .mi, .highlight .mf, .highlight .mh,
-.highlight .mo, .highlight .il { color: #1750eb; } /* numbers */
-.highlight .o, .highlight .p { color: #1a1a2e; } /* operators, punctuation */
-.highlight .nt { color: #0033b3; } /* tags */
-.highlight .nv, .highlight .vi, .highlight .vg { color: #871094; } /* variables */
+/* ===== Rouge Syntax Highlighting (Light Theme - IntelliJ style) ===== */
+.highlight pre.highlight code span.k,
+.highlight pre.highlight code span.kd,
+.highlight pre.highlight code span.kn,
+.highlight pre.highlight code span.kp,
+.highlight pre.highlight code span.kr,
+.highlight pre.highlight code span.kt { color: #0033b3 !important; font-weight: bold; } /* keywords */
+.highlight pre.highlight code span.nd { color: #9876aa !important; } /* annotations: @Retry */
+.highlight pre.highlight code span.nc { color: #1a1a2e !important; font-weight: bold; } /* class names */
+.highlight pre.highlight code span.nf { color: #00627a !important; } /* function/method names */
+.highlight pre.highlight code span.na { color: #871094 !important; } /* attributes */
+.highlight pre.highlight code span.n { color: #1a1a2e !important; } /* names */
+.highlight pre.highlight code span.s,
+.highlight pre.highlight code span.s1,
+.highlight pre.highlight code span.s2,
+.highlight pre.highlight code span.se,
+.highlight pre.highlight code span.sh,
+.highlight pre.highlight code span.sx { color: #067d17 !important; } /* strings */
+.highlight pre.highlight code span.c,
+.highlight pre.highlight code span.c1,
+.highlight pre.highlight code span.cm,
+.highlight pre.highlight code span.cp,
+.highlight pre.highlight code span.cs { color: #8c8c8c !important; font-style: italic; } /* comments */
+.highlight pre.highlight code span.mi,
+.highlight pre.highlight code span.mf,
+.highlight pre.highlight code span.mh,
+.highlight pre.highlight code span.mo,
+.highlight pre.highlight code span.il { color: #1750eb !important; } /* numbers */
+.highlight pre.highlight code span.o,
+.highlight pre.highlight code span.p { color: #1a1a2e !important; } /* operators */
+.highlight pre.highlight code span.nt { color: #0033b3 !important; } /* tags */
+.highlight pre.highlight code span.nv,
+.highlight pre.highlight code span.vi,
+.highlight pre.highlight code span.vg { color: #871094 !important; } /* variables */
+.highlight pre.highlight code span.no { color: #871094 !important; font-weight: bold; } /* constants */
+.highlight pre.highlight code span.ni,
+.highlight pre.highlight code span.ne,
+.highlight pre.highlight code span.nl { color: #1a1a2e !important; } /* other names */
 
 /* ===== Post Footer ===== */
 .post-detail__footer {
