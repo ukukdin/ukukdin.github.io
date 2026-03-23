@@ -9,16 +9,6 @@
 <body class="site-body">
   {% include header.html %}
 
-  <!-- 왼쪽 광고 배너 (고정) -->
-  <aside class="ad-banner" aria-label="광고">
-    <a href="https://www.loopers.im/" target="_blank" rel="noopener noreferrer" class="ad-banner__link">
-      <div class="ad-banner__badge">AD</div>
-      <img class="ad-banner__logo" src="{{ '/img_1.png' | relative_url }}" alt="Loopers" />
-      <div class="ad-banner__desc">루프팩 4기<br>모집 예정!</div>
-      <span class="ad-banner__cta">방문하기 &rarr;</span>
-    </a>
-  </aside>
-
   <main class="site-main">
     {{ content }}
   </main>
