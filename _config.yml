@@ -2,11 +2,19 @@ title: Ukukdin's Tech Blog
 description: "LangChain, CS Study, Spring Boot, Infra 기술 블로그"
 url: "https://ukukdin.github.io"
 baseurl: ""
+lang: ko
+author:
+  name: Ukukdin
 
 markdown: kramdown
 highlighter: rouge
 
 permalink: /:year/:month/:day/:title/
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
 
 defaults:
   - scope:
@@ -21,3 +29,7 @@ exclude:
   - vendor
   - .idea
   - node_modules
+  - README.md
+  - 9weeks.md
+  - Week1_WIL.md
+  - "6장.응용 서비스와 표현 영역.md"
