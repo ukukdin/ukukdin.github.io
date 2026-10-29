@@ -268,6 +268,17 @@
   });
   $("key").addEventListener("keydown", function (e) { if (e.key === "Enter") $("add").click(); });
   stats();
+
+  // 블로그 글에 iframe으로 넣었을 때 내용 높이에 맞춰 iframe 높이를 바꾼다
+  var frame = null;
+  try { frame = window.frameElement; } catch (e) { frame = null; }
+  if (frame) {
+    // documentElement.scrollHeight는 iframe 높이보다 작아지지 않으므로 body 높이로 잰다
+    var fit = function () { frame.style.height = (document.body.offsetHeight + 4) + "px"; };
+    fit();
+    if ("ResizeObserver" in window) new ResizeObserver(fit).observe(document.body);
+    else window.addEventListener("resize", fit);
+  }
 })();
 </script>
 </body>
