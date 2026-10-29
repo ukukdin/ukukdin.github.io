@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>카운트-민 스케치 데모</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --surface-2: #f3f4f6;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --accent: #3b82f6;
+    --r1: #3b82f6;
+    --r2: #0d9488;
+    --r3: #d97706;
+    --r4: #7c3aed;
+    --min: #047857;
+    --min-soft: #d1fae5;
+    --over: #ea580c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 16px;
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+    font-size: 15px; line-height: 1.6;
+  }
+  .mono { font-family: ui-monospace, Menlo, monospace; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
+  input[type="text"] {
+    flex: 1 1 140px; min-width: 0; font: inherit;
+    padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border); color: var(--text);
+  }
+  button {
+    font: inherit; font-size: 14px; cursor: pointer;
+    padding: 7px 14px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--surface-2); color: var(--text);
+    transition: transform .1s ease, background .2s ease;
+  }
+  button:hover { background: var(--border); }
+  button:active { transform: scale(.97); }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button:disabled { opacity: .5; cursor: not-allowed; }
+  label.toggle { display: inline-flex; gap: 6px; align-items: center; font-size: 14px; color: var(--muted); cursor: pointer; }
+
+  .lane { height: 32px; position: relative; overflow: hidden; margin: 4px 0 6px; }
+  .token {
+    position: absolute; left: 0; top: 2px; padding: 2px 12px; border-radius: 999px;
+    background: var(--accent); color: #fff; font-size: 14px; white-space: nowrap;
+    animation: slideIn .45s cubic-bezier(.2,.8,.2,1);
+  }
+  @keyframes slideIn { from { transform: translateX(-30px); opacity: 0; } to { transform: none; opacity: 1; } }
+
+  .grid { display: grid; gap: 5px; }
+  .grid-row { display: grid; grid-template-columns: 30px repeat(13, minmax(0, 1fr)); gap: 4px; align-items: center; }
+  .row-label { font-size: 12.5px; font-weight: 700; }
+  .cell {
+    aspect-ratio: 1; min-height: 20px; border-radius: 6px;
+    background: var(--surface-2); border: 1.5px solid transparent;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12.5px; font-variant-numeric: tabular-nums;
+    transition: background .35s ease, border-color .35s ease, color .35s ease;
+  }
+  .cell.zero { color: var(--muted); opacity: .6; }
+  .cell.look { border-color: currentColor; }
+  .cell.min { background: var(--min-soft); border-color: var(--min); color: var(--min); font-weight: 700; }
+  .cell.hit { animation: pop .5s ease; }
+  @keyframes pop { 35% { transform: scale(1.3); } }
+  .cell.flash { animation: flash .35s ease; }
+  @keyframes flash { 0% { filter: brightness(.82); } 100% { filter: none; } }
+
+  .result { margin-top: 12px; padding: 10px 14px; border-radius: 10px; background: var(--surface-2); min-height: 44px; }
+  .result .min { color: var(--min); font-weight: 700; }
+  .result .over { color: var(--over); font-weight: 700; }
+  .stats { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin-top: 8px; }
+
+  .compare { display: none; margin-top: 14px; }
+  .compare.show { display: block; }
+  .legend { display: flex; gap: 14px; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+  .bar-row { display: grid; grid-template-columns: 64px 1fr 118px; gap: 10px; align-items: center; font-size: 13px; padding: 2px 0; }
+  .track { height: 13px; background: var(--surface-2); border-radius: 4px; overflow: hidden; display: flex; gap: 2px; }
+  .b-true { background: var(--accent); width: 0; transition: width .7s cubic-bezier(.2,.8,.2,1); }
+  .b-over { background: var(--over); width: 0; transition: width .7s cubic-bezier(.2,.8,.2,1) .15s; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  @media (max-width: 520px) {
+    body { padding: 12px; }
+    .grid-row { grid-template-columns: 24px repeat(13, minmax(0, 1fr)); gap: 3px; }
+    .cell { font-size: 10px; border-radius: 4px; }
+    .bar-row { grid-template-columns: 52px 1fr 100px; gap: 8px; font-size: 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+  <div class="row">
+    <input type="text" id="key" value="송금" maxlength="20" aria-label="키">
+    <button class="primary" id="add">키 넣기</button>
+    <button id="query">개수 묻기</button>
+  </div>
+  <div class="row">
+    <button id="stream">단어 300건 흘려보내기</button>
+    <button id="reset">초기화</button>
+    <label class="toggle"><input type="checkbox" id="cu"> 보수적 갱신</label>
+  </div>
+  <div class="lane" id="lane"></div>
+  <div class="grid" id="grid"></div>
+  <div class="result" id="result">4행 13열짜리 스케치다. 키를 넣거나 개수를 물어보자.</div>
+  <div class="stats">
+    <span>누적 N = <b class="mono" id="n">0</b></span>
+    <span>오차 한계 ε·N ≈ <b class="mono" id="bound">0</b></span>
+    <span>고유 키 <b class="mono" id="keys">0</b>개</span>
+  </div>
+  <div class="compare" id="compare">
+    <div class="legend"><span><i style="background:var(--accent)"></i>실제 개수</span><span><i style="background:var(--over)"></i>과대 추정분</span></div>
+    <div id="bars"></div>
+  </div>
+
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var D = 4, W = 13;
+  var COLORS = ["var(--r1)", "var(--r2)", "var(--r3)", "var(--r4)"];
+  var table = new Array(D * W).fill(0);
+  var truth = new Map();
+  var total = 0, busy = false;
+  var $ = function (id) { return document.getElementById(id); };
+
+  function fnv1a(s, seed) {
+    var h = seed >>> 0;
+    for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; }
+    return h;
+  }
+  function cols(key) {
+    var h1 = fnv1a(key, 0x811c9dc5), h2 = fnv1a(key, 0x01000193) | 1, out = [];
+    for (var i = 0; i < D; i++) out.push(((h1 + i * h2) >>> 0) % W);
+    return out;
+  }
+  function esc(s) { return s.replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+
+  var cells = [];
+  for (var r = 0; r < D; r++) {
+    var row = document.createElement("div"); row.className = "grid-row";
+    var lab = document.createElement("div"); lab.className = "row-label mono"; lab.style.color = COLORS[r]; lab.textContent = "h" + (r + 1);
+    row.appendChild(lab);
+    for (var c = 0; c < W; c++) {
+      var el = document.createElement("div"); el.className = "cell zero mono"; el.textContent = "0";
+      row.appendChild(el); cells.push(el);
+    }
+    $("grid").appendChild(row);
+  }
+
+  function paint(i) { cells[i].textContent = table[i]; cells[i].classList.toggle("zero", table[i] === 0); }
+  function clear() { cells.forEach(function (el) { el.classList.remove("look", "min"); el.style.color = ""; }); }
+  function stats() {
+    $("n").textContent = total.toLocaleString();
+    $("bound").textContent = (Math.E / W * total).toFixed(1);
+    $("keys").textContent = truth.size;
+  }
+  function estimate(key) {
+    var min = Infinity;
+    cols(key).forEach(function (c, r) { min = Math.min(min, table[r * W + c]); });
+    return min;
+  }
+  function addRaw(key) {
+    var cs = cols(key), touched = [];
+    if ($("cu").checked) {
+      var target = estimate(key) + 1;
+      cs.forEach(function (c, r) { var i = r * W + c; if (table[i] < target) { table[i] = target; touched.push(i); } });
+    } else {
+      cs.forEach(function (c, r) { var i = r * W + c; table[i] += 1; touched.push(i); });
+    }
+    truth.set(key, (truth.get(key) || 0) + 1);
+    total += 1;
+    return { cs: cs, touched: touched };
+  }
+  function token(key) { $("lane").innerHTML = ""; var t = document.createElement("span"); t.className = "token"; t.textContent = key; $("lane").appendChild(t); }
+  function readKey() { var k = $("key").value.trim(); if (!k) { $("result").textContent = "키를 한 글자 이상 넣어야 한다."; return null; } return k; }
+  function setBusy(v) { busy = v; ["add", "query", "stream", "reset"].forEach(function (id) { $(id).disabled = v; }); }
+  function pop(el) { el.classList.remove("hit"); void el.offsetWidth; el.classList.add("hit"); }
+
+  $("add").addEventListener("click", function () {
+    var key = readKey(); if (!key || busy) return;
+    clear(); token(key);
+    var res = addRaw(key); stats(); setBusy(true);
+    var step = reduce ? 0 : 220;
+    res.cs.forEach(function (c, r) {
+      setTimeout(function () {
+        var i = r * W + c; paint(i);
+        cells[i].style.color = COLORS[r]; cells[i].classList.add("look"); pop(cells[i]);
+        if (r === D - 1) {
+          setBusy(false);
+          var kept = D - res.touched.length;
+          $("result").innerHTML = "<b>" + esc(key) + "</b> 키를 넣었다. 행마다 칸 하나씩 올라간다." + (kept ? " 보수적 갱신이라 " + kept + "칸은 그대로 뒀다." : "");
+        }
+      }, step * r);
+    });
+  });
+
+  $("query").addEventListener("click", function () {
+    var key = readKey(); if (!key || busy) return;
+    clear(); token(key); setBusy(true);
+    var cs = cols(key), vals = cs.map(function (c, r) { return table[r * W + c]; });
+    var min = Math.min.apply(null, vals), minRow = vals.indexOf(min), step = reduce ? 0 : 200;
+    cs.forEach(function (c, r) {
+      setTimeout(function () { var el = cells[r * W + c]; el.style.color = COLORS[r]; el.classList.add("look"); pop(el); }, step * r);
+    });
+    setTimeout(function () {
+      var el = cells[minRow * W + cs[minRow]]; el.style.color = ""; el.classList.add("min");
+      var actual = truth.get(key) || 0, diff = min - actual;
+      $("result").innerHTML = "행별 값은 <span class='mono'>[" + vals.join(", ") + "]</span>이고 추정값은 최솟값 <span class='min'>" + min + "</span>이다. " +
+        (diff > 0 ? "실제로는 " + actual + "번이라 <span class='over'>" + diff + "</span>만큼 크게 셌다." : "실제로도 " + actual + "번이라 정확히 맞았다.");
+      setBusy(false);
+    }, step * D + 120);
+  });
+
+  var WORDS = ["송금", "환율", "베트남", "홍콩", "수수료", "계좌", "인증", "한도", "출금", "입금", "알림", "취소",
+    "환전", "달러", "동", "원화", "수취인", "이체", "보안", "로그인", "약관", "고객센터", "영수증", "주소"];
+  var weights = WORDS.map(function (_, i) { return 1 / Math.pow(i + 1, 1.15); });
+  var wsum = weights.reduce(function (a, b) { return a + b; }, 0);
+  function pick() { var x = Math.random() * wsum; for (var i = 0; i < WORDS.length; i++) { x -= weights[i]; if (x <= 0) return WORDS[i]; } return WORDS[WORDS.length - 1]; }
+
+  $("stream").addEventListener("click", function () {
+    if (busy) return;
+    clear(); $("lane").innerHTML = ""; setBusy(true);
+    var left = 300;
+    (function tick() {
+      var n = Math.min(6, left);
+      for (var i = 0; i < n; i++) {
+        var key = pick(), res = addRaw(key);
+        res.touched.forEach(function (idx) { paint(idx); if (!reduce) { cells[idx].classList.remove("flash"); void cells[idx].offsetWidth; cells[idx].classList.add("flash"); } });
+        if (i === n - 1) token(key);
+      }
+      left -= n; stats();
+      if (left > 0) { if (reduce) tick(); else setTimeout(tick, 30); }
+      else { setBusy(false); $("result").textContent = "300건을 넣었다. 아래쪽 드문 단어일수록 주황색이 실제 개수보다 길어진다."; bars(); }
+    })();
+  });
+
+  function bars() {
+    var box = $("bars"), list = Array.from(truth.entries()).sort(function (a, b) { return b[1] - a[1]; });
+    var max = 1; list.forEach(function (e) { max = Math.max(max, estimate(e[0])); });
+    box.innerHTML = "";
+    var todo = [];
+    list.forEach(function (e) {
+      var est = estimate(e[0]), over = est - e[1], pct = Math.round(over / e[1] * 100);
+      var row = document.createElement("div"); row.className = "bar-row";
+      row.innerHTML = "<div>" + esc(e[0]) + "</div><div class='track'><div class='b-true'></div><div class='b-over'></div></div>" +
+        "<div class='num mono'>" + e[1] + " → " + est + (over > 0 ? " <span style='color:var(--over)'>+" + pct + "%</span>" : "") + "</div>";
+      box.appendChild(row);
+      todo.push([row.querySelector(".b-true"), e[1] / max * 100, row.querySelector(".b-over"), over / max * 100]);
+    });
+    $("compare").classList.add("show");
+    requestAnimationFrame(function () { requestAnimationFrame(function () {
+      todo.forEach(function (t) { t[0].style.width = t[1] + "%"; t[2].style.width = t[3] + "%"; });
+    }); });
+  }
+
+  $("reset").addEventListener("click", function () {
+    if (busy) return;
+    table.fill(0); truth.clear(); total = 0;
+    for (var i = 0; i < table.length; i++) paint(i);
+    clear(); $("lane").innerHTML = ""; $("compare").classList.remove("show"); stats();
+    $("result").textContent = "비웠다. 다시 넣어 보자.";
+  });
+  $("key").addEventListener("keydown", function (e) { if (e.key === "Enter") $("add").click(); });
+  stats();
+})();
+</script>
+</body>
+</html>
